@@ -37,7 +37,26 @@ X_hat_augmented = numpy.column_stack((numpy.ones_like(x), x_hat))
 print("Loss Generative:", calculate_loss_least_squares(x, x_hat))
 y_hat_g = (x - theta[0]) / theta[1]
 
+def calculate_generative_inference_parameters(phi):
+    """
+    Given x = g[phi, y] for linear regression model,
+    y = x*phi^T(phi*phi^T)^-1
+
+    Doesn't compute the inverse directly, instead use psudoinverse
+    Z = phi^T(phi*phi^T)^-1
+    NOTE: linalg.pinv works for both under- and over-determined cases
+        in which dim(phi) != dim(x)
+    """
+    out = numpy.linalg.pinv(phi)
+    return out
+
+# Recover z via pseudoinverse
+theta_inv = calculate_generative_inference_parameters(theta.reshape(-1,1))
+print("Estimated generative inverse parameters:", theta_inv)
+y_hat_g_inverse = theta_inv @ X_hat_augmented.T
+
 # These are supposed to be really close if the data is linear
 print("Won't all match unless linear ------ ")
 print("Disciminative y_hat outputs:", y_hat)
 print("Inverse generative (algebraic):", y_hat_g)
+print("Inverse generative (pseodoinv):", y_hat_g_inverse)
