@@ -19,6 +19,11 @@ dataset1 = {
     "y": numpy.array([0.67, 0.85, 1.05, 1.0, 1.40, 1.5, 1.3, 1.54, 1.55, 1.68, 1.73, 1.6 ]),
 }
 
+dataset2 = {
+    "x": numpy.array([1.0, 2.0, 3.0]),
+    "y": numpy.array([2.0, 4.0, 6.0])
+}
+
 data = dataset1
 
 x = data['x']
